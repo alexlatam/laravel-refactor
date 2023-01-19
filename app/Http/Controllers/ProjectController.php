@@ -4,32 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware("auth");
-    }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function index()
+    public function index(): View
     {
         $projects = Project::with("user")->paginate(10);
         return view("projects.index", compact("projects"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
+    public function create(): View
     {
         $project = new Project;
         $title = __("Crear proyecto");
@@ -38,13 +25,7 @@ class ProjectController extends Controller
         return view("projects.create", compact("title", "textButton", "route", "project"));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
             "name" => "required|max:140|unique:projects",
@@ -55,13 +36,7 @@ class ProjectController extends Controller
             ->with("success", __("¡Proyecto creado!"));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function edit(Project $project)
+    public function edit(Project $project): View
     {
         $update = true;
         $title = __("Editar proyecto");
@@ -70,14 +45,7 @@ class ProjectController extends Controller
         return view("projects.edit", compact("update", "title", "textButton", "route", "project"));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, Project $project): RedirectResponse
     {
         $this->validate($request, [
             "name" => "required|unique:projects,name," . $project->id,
@@ -87,13 +55,7 @@ class ProjectController extends Controller
         return back()->with("success", __("¡Proyecto actualizado!"));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(Project $project)
+    public function destroy(Project $project): RedirectResponse
     {
         $project->delete();
         return back()->with("success", __("¡Proyecto eliminado!"));
