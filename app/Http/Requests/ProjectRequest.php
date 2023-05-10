@@ -19,7 +19,8 @@ class ProjectRequest extends FormRequest
             'name' => [
                 'required',
                 'max:140',
-                Rule::unique('projects', 'name')->ignore(request('project')), // Ignorara al project quye venga en la peticion, esto validara el nombre del proyecto que se esta editando
+                // Ignorara al project quye venga en la peticion, esto validara el nombre del proyecto que se esta editando
+                Rule::unique('projects', 'name')->ignore(request('project')),
             ],
             'description' => 'nullable|string|min:10'
         ];
