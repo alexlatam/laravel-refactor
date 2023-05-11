@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\DeleteProjectAction;
+use App\Actions\UpsertProjectAction;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use App\ViewModels\UpsertProjectViewModel;
@@ -25,10 +27,8 @@ class ProjectController extends Controller
 
     public function store(ProjectRequest $request): RedirectResponse
     {
-        $request->merge(['user_id' => auth()->id()]);
-        Project::create($request->only('user_id', 'name', 'description'));
-
-        return redirect(route('projects.index'))->with('success', __('¡Proyecto creado!'));
+        UpsertProjectAction::execute(auth()->user(), $request);
+        return redirect()->route('projects.index')->with('success', __('¡Proyecto creado!'));
     }
 
     public function edit(Project $project): View
@@ -39,13 +39,13 @@ class ProjectController extends Controller
 
     public function update(ProjectRequest $request, Project $project): RedirectResponse
     {
-        $project->fill($request->only('name', 'description'))->save();
+        UpsertProjectAction::execute(auth()->user(), $request);
         return back()->with('success', __('¡Proyecto actualizado!'));
     }
 
     public function destroy(Project $project): RedirectResponse
     {
-        $project->delete();
+        DeleteProjectAction::execute($project->id);
         return back()->with('success', __('¡Proyecto eliminado!'));
     }
 }
