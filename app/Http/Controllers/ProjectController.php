@@ -24,7 +24,7 @@ class ProjectController extends Controller
     public function create(): View
     {
         $viewModel = new UpsertProjectViewModel(null);
-        return view('projects.create', $viewModel->toArray()['form_data']);
+        return view('projects.form', $viewModel->toArray()['form_data']);
     }
 
     public function store(ProjectRequest $request): RedirectResponse
@@ -36,7 +36,7 @@ class ProjectController extends Controller
     public function edit(Project $project): View
     {
         $viewModel = new UpsertProjectViewModel($project);
-        return view('projects.edit', $viewModel->toArray()['form_data']);
+        return view('projects.form', $viewModel->toArray()['form_data']);
     }
 
     public function update(ProjectRequest $request, Project $project): RedirectResponse
