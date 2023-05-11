@@ -42,12 +42,12 @@ class ProjectController extends Controller
     public function update(ProjectRequest $request, Project $project): RedirectResponse
     {
         UpsertProjectAction::execute(auth()->user(), $request);
-        return back()->with('success', __('¡Proyecto actualizado!'));
+        return redirect()->route('projects.index')->with('success', __('¡Proyecto actualizado!'));
     }
 
     public function destroy(Project $project): RedirectResponse
     {
         DeleteProjectAction::execute($project->id);
-        return back()->with('success', __('¡Proyecto eliminado!'));
+        return redirect()->route('projects.index')->with('success', __('¡Proyecto eliminado!'));
     }
 }
