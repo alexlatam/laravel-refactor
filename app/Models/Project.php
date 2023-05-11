@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Builders\ProjectBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Project extends Base\Project
 {
     // Un nuevo metodo para los builders de Eloquent referentes a este Modelo
     // USO: En los controladores: Porject::forCurrentUser()->get();
-    // public function scopeForCurrentUser(Builder $builder)
+    // public function scopeForCurrentUser(Builder $builder): Builder
     // {
     //    return $builder->where('user_id', auth()->id());
     // }
