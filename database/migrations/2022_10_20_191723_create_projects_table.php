@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\User::class)->constrained();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->enum('status', ['active', 'inactive']);
             $table->timestamps();
         });
     }
