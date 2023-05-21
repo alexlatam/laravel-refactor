@@ -2,14 +2,13 @@
 
 namespace App\ViewModels;
 
-use App\Models\Project;
+use App\Models\Product;
 
 // Este ViewModel retornara todos los datos necesarios para las vistas de creacion y actualizacion de proyectos
 final class UpsertProjectViewModel extends ViewModel
 {
-
     // Recibe un objeto Project, o null
-    public function __construct(public ?Project $project) {}
+    public function __construct(public ?Product $product) {}
 
     /* Este metodo es llamado desde el metodo toArray() de la clase ViewModel
      * Este metodo retorna un array con los datos necesarios para las vistas de creacion y actualizacion de proyectos,
@@ -17,7 +16,7 @@ final class UpsertProjectViewModel extends ViewModel
      */
     public function formData(): array
     {
-        return ($this->project) ? $this->updateFormData() : $this->createFormData();
+        return ($this->product) ? $this->updateFormData() : $this->createFormData();
     }
 
     protected function createFormData(): array
